@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/minty/bootstrap.min.css"
+        integrity="sha384-H4X+4tKc7b8s4GoMrylmy2ssQYpDHoqzPa9aKXbDwPoPUA3Ra8PA5dGzijN+ePnH" crossorigin="anonymous">
+    <style>
+        .header-image {
+            width: 100%;
+            height: 35vh;
+            object-fit: cover;
+        }
+    </style>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <header>
+        <img src="{% static 'images/header.jpg' %}" class="img-fluid header-image" alt="Header Image">
+    </header>
+    {% if user.is_authenticated %}
+    <form method="post" action="{% url 'logout' %}" style="float:right">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+    {% endif %}
+
+    {% block content%}
+    {% endblock %}
+</body>
+
+</html>

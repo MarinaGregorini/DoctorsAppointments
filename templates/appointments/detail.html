@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+Appointment Details
+{% endblock %}
+
+{% block content%}
+<h1>Appointment Details</h1>
+<p>
+    {{appointment.specialty}} appointment with {{appointment.doctor}} at {{appointment.start_time}} on
+    {{appointment.date}}.
+</p>
+<br>
+<a href="{% url 'edit' appointment.id %}">Change this appointment</a><br>
+<a href="{% url 'cancel' appointment.id %}">Delete this appointment</a><br>
+<a href="{% url 'home'%}">Home</a>
+
+{% endblock %}

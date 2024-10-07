@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+Create Appointment
+{% endblock %}
+
+{% block content%}
+<h1>Create Appointment</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="specialty">Specialty:</label>
+    {{ form.specialty }}
+
+    <label for="doctor">Doctor:</label>
+    <select id="id_doctor" name="doctor">
+        <option value="">Select a doctor</option>
+    </select>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" min="{{tomorrow}}" required>
+
+    <label for="start_time">Available Times:</label>
+    <select id="start_time" name="start_time" required>
+        <option value="">Select a time</option>
+    </select>
+
+    <button type="submit">Create Appointment</button>
+</form>
+
+<script>
+    document.getElementById('id_specialty').addEventListener('change', function () {
+        const specialty = this.value;
+        const doctorSelect = document.getElementById('id_doctor');
+
+        doctorSelect.innerHTML = '<option value="">Select a doctor</option>';
+
+        if (specialty) {
+            fetch(`{% url 'get_doctors' %}?specialty=${specialty}`)
+                .then(response => response.json())
+                .then(data => {
+                    for (const doctor of data) {
+                        const option = document.createElement('option');
+                        option.value = doctor.id;
+                        option.textContent = doctor.name;
+                        doctorSelect.appendChild(option);
+                    }
+                })
+                .catch(error => console.error('Error fetching doctors:', error)); // Log any errors
+        }
+    });
+    document.getElementById('date').addEventListener('change', function () {
+        const selectedDate = this.value;
+        const timeSelect = document.getElementById('start_time');
+
+        // Limpar opções de horário
+        timeSelect.innerHTML = '<option value="">Select a time</option>';
+
+        if (selectedDate) {
+            const specialty = document.getElementById('id_specialty').value;
+            const doctor = document.getElementById('id_doctor').value;
+
+            // Verificar se uma especialidade e um médico estão selecionados
+            if (specialty && doctor) {
+                fetch(`{% url 'get_available_times' %}?date=${selectedDate}&doctor=${doctor}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        for (const time of data) {
+                            const option = document.createElement('option');
+                            option.value = time;
+                            option.textContent = time;
+                            timeSelect.appendChild(option);
+                        }
+                    });
+            }
+        }
+    });
+</script>
+{% endblock %}

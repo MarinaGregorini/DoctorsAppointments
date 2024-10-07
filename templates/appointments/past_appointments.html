@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+Past Appointments
+{% endblock %}
+
+{% block content%}
+<h1>Past Appointments</h1>
+<p>
+<ul>
+    {% for appointment in appointments %}
+    <li>
+        {{ appointment }}
+    </li>
+    {% endfor %}
+    {% if not appointments%}
+    <p>There are no past appointments.</p>
+    {% endif %}
+</ul>
+</p>
+<br><br>
+<a href="{% url 'user_dashboard' %}">Back to the Dashboard</a>
+{% endblock %}

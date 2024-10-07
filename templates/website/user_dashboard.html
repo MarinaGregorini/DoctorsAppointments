@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+User Dashboard
+{% endblock %}
+
+{% block content%}
+<h2>Your next appointments:</h2>
+{% if appointments %}
+<ul>
+    {% for appointment in appointments %}
+    <li>
+        <a href="{% url 'detail' appointment.id %}">{{ appointment }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>You don't have any appointments scheduled.</p>
+{% endif %}
+<br><br>
+<a href="{% url 'new' %}">Make an appointment.</a>
+<br><br>
+<a href="{%  url 'past_appointments' %}">See you past appointments.</a>
+<br><br>
+<a href="{%  url 'update_user' %}">Update your profile information.</a>
+{% endblock %}

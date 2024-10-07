@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+Update User
+{% endblock %}
+
+{% block content%}
+<h1>Update User Profile</h1>
+<form method="POST">
+    <table>
+        {{ form.as_p }}
+    </table>
+    {% csrf_token %}
+    <button type="submit">Update</button>
+</form>
+<a href="{% url 'user_dashboard' %}">Cancel</a>
+{% endblock %}

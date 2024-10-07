@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content%}
+<h1>Welcome to HealthHaven Medical Center!</h1>
+<h2>Your Health, Our Priority</h2>
+{% if user.is_authenticated %}
+<br><br>
+To get started, go to your dashboard and explore the features available.
+<br>
+<a href="{% url 'user_dashboard' %}">Dashboard</a>
+{% else %}
+<br><br>
+<a href="{% url 'login' %}">Login to manage your appointments.</a>
+{% endif %}
+{% endblock %}
